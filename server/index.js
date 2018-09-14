@@ -13,6 +13,7 @@ const logger = require('koa-logger');
 const webpack = require('webpack');
 const koaWebpack = require('koa-webpack');
 const config = require('../config/webpack.config.dev.js');
+const shopifyApiProxy = require('./koa-route-shopify-api-proxy');
 
 const ShopifyAPIClient = require('shopify-api-node');
 
@@ -104,6 +105,9 @@ app.use(shopifyAuth(shopifyConfig));
 
 // secure all middleware after this line
 app.use(verifyRequest({ fallbackRoute: '/install' }));
+
+//shopify api
+app.use(route.all('/shopify/api/(.*)', shopifyApiProxy));
 
 // Client
 app.use(route.get('/', (ctx) => ctx.render('app', {
