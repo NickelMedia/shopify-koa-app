@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { Popover, ActionList, Button } from '@shopify/polaris';
-import { updateVerb } from '../actions';
+import { updateVerb } from '../../actions';
 
 
 class VerbPicker extends Component {
