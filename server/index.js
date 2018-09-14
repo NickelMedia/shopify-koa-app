@@ -5,6 +5,7 @@ const Koa = require('koa');
 const route = require('koa-route');
 const views = require('koa-views');
 const serve = require('koa-static');
+const mount = require('koa-mount');
 const { default: shopifyAuth, verifyRequest } = require('@shopify/koa-shopify-auth');
 const session = require('koa-session');
 const path = require('path');
@@ -77,7 +78,7 @@ if (isDevelopment) {
 	.catch((err) => console.error(err.message));
 } else {
   const staticPath = path.resolve(__dirname, '../assets');
-  app.use(route.all('/assets/(.*)', serve(staticPath)));
+  app.use(mount('/assets', serve(staticPath)));
 }
 
 // Install
@@ -92,7 +93,7 @@ app.use(verifyRequest({ fallbackRoute: '/install' }));
 app.use(route.all('/shopify/api/(.*)', shopifyApiProxy));
 
 // Client
-app.use(route.get('*', (ctx) => ctx.render('app', {
+app.use(route.get('/', (ctx) => ctx.render('app', {
 	title: 'Shopify Node App',
 	apiKey: shopifyConfig.apiKey,
 	shop: ctx.session.shop,
