@@ -15,16 +15,26 @@
     lodash "^4.17.4"
     lodash-decorators "^4.3.5"
 
-"@shopify/polaris@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-2.0.0.tgz#a40131535076a12607708360871ecae5de1b64ce"
+"@shopify/javascript-utilities@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@shopify/javascript-utilities/-/javascript-utilities-2.2.0.tgz#948d44d4068d602136b0d72de66eed49820e2374"
+  dependencies:
+    "@types/lodash" "^4.14.65"
+    "@types/react" "^16.0.2"
+    lodash "^4.17.4"
+    lodash-decorators "^4.3.5"
+
+"@shopify/polaris@^2.3.1":
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-2.9.0.tgz#9aeb0b3b367736497c5c11eaa1bb2c6cc882401e"
   dependencies:
     "@shopify/images" "^1.1.0"
-    "@shopify/javascript-utilities" "^2.1.0"
-    "@shopify/react-utilities" "2.0.0-beta.9"
+    "@shopify/javascript-utilities" "^2.2.0"
+    "@shopify/react-html" "^3.0.3"
+    "@shopify/react-utilities" "^2.0.3"
     "@types/prop-types" "^15.5.2"
-    "@types/react" "^16.3.5"
-    "@types/react-dom" "^16.0.4"
+    "@types/react" "^16.4.7"
+    "@types/react-dom" "^16.0.6"
     "@types/react-transition-group" "^2.0.7"
     babel-runtime "^6.23.0"
     core-js "^2.5.1"
@@ -35,16 +45,30 @@
     react-transition-group "^2.3.0"
     tslib "^1.8.0"
 
-"@shopify/react-utilities@2.0.0-beta.9":
-  version "2.0.0-beta.9"
-  resolved "https://registry.yarnpkg.com/@shopify/react-utilities/-/react-utilities-2.0.0-beta.9.tgz#0b1df35bb7bc0369adc955c6ea59a743bffc1ef1"
+"@shopify/react-html@^3.0.3":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@shopify/react-html/-/react-html-3.0.5.tgz#c233349cc2d721b42ea0ada4b8da63fda101e250"
+  dependencies:
+    "@shopify/react-serialize" "^1.0.7"
+    react-helmet "^5.2.0"
+
+"@shopify/react-serialize@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@shopify/react-serialize/-/react-serialize-1.0.7.tgz#f4c1ec456c510539325b78648a9177cad7ce2c2e"
+  dependencies:
+    serialize-javascript "^1.5.0"
+
+"@shopify/react-utilities@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@shopify/react-utilities/-/react-utilities-2.0.3.tgz#424421e7202b402ec7934c137b5b7e035fbeb33c"
   dependencies:
     "@shopify/javascript-utilities" "^2.1.0"
     "@types/classnames" "^2.2.3"
-    "@types/node" "^8.0.41"
-    "@types/react" "^16.0.10"
+    "@types/node" "^10.0.8"
+    "@types/react" "^16.3.14"
+    "@types/react-dom" "^16.0.5"
     classnames "^2.2.5"
-    core-js "^2.5.1"
+    core-js "^2.5.6"
 
 "@shopify/shopify-express@^1.0.0-alpha.7":
   version "1.0.0-alpha.7"
@@ -78,17 +102,23 @@
   version "8.0.53"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.53.tgz#396b35af826fa66aad472c8cb7b8d5e277f4e6d8"
 
-"@types/node@^8.0.41":
-  version "8.10.17"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.17.tgz#d48cf10f0dc6dcf59f827f5a3fc7a4a6004318d3"
+"@types/node@^10.0.8":
+  version "10.9.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.9.4.tgz#0f4cb2dc7c1de6096055357f70179043c33e9897"
+
+"@types/prop-types@*":
+  version "15.5.5"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.5.tgz#17038dd322c2325f5da650a94d5f9974943625e3"
+  dependencies:
+    "@types/react" "*"
 
 "@types/prop-types@^15.5.2":
   version "15.5.2"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.2.tgz#3c6b8dceb2906cc87fe4358e809f9d20c8d59be1"
 
-"@types/react-dom@^16.0.4":
-  version "16.0.5"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.5.tgz#a757457662e3819409229e8f86795ff37b371f96"
+"@types/react-dom@^16.0.5", "@types/react-dom@^16.0.6":
+  version "16.0.7"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.7.tgz#54d0f867a76b90597e8432030d297982f25c20ba"
   dependencies:
     "@types/node" "*"
     "@types/react" "*"
@@ -99,14 +129,15 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.0.10", "@types/react@^16.0.2":
+"@types/react@*", "@types/react@^16.0.2":
   version "16.0.25"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.25.tgz#bf696b83fe480c5e0eff4335ee39ebc95884a1ed"
 
-"@types/react@^16.3.5":
-  version "16.3.14"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.14.tgz#f90ac6834de172e13ecca430dcb6814744225d36"
+"@types/react@^16.3.14", "@types/react@^16.4.7":
+  version "16.4.14"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.14.tgz#47c604c8e46ed674bbdf4aabf82b34b9041c6a04"
   dependencies:
+    "@types/prop-types" "*"
     csstype "^2.2.0"
 
 abbrev@1:
@@ -569,6 +600,10 @@ babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-async-functions/-/babel-plugin-syntax-async-functions-6.13.0.tgz#cad9cad1191b5ad634bf30ae0872391e0647be95"
 
+babel-plugin-syntax-class-properties@^6.8.0:
+  version "6.13.0"
+  resolved "http://registry.npmjs.org/babel-plugin-syntax-class-properties/-/babel-plugin-syntax-class-properties-6.13.0.tgz#d7eb23b79a317f8543962c505b827c7d6cac27de"
+
 babel-plugin-syntax-exponentiation-operator@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-exponentiation-operator/-/babel-plugin-syntax-exponentiation-operator-6.13.0.tgz#9ee7e8337290da95288201a6a57f4170317830de"
@@ -596,6 +631,15 @@ babel-plugin-transform-async-to-generator@^6.22.0:
     babel-helper-remap-async-to-generator "^6.24.1"
     babel-plugin-syntax-async-functions "^6.8.0"
     babel-runtime "^6.22.0"
+
+babel-plugin-transform-class-properties@^6.24.1:
+  version "6.24.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-class-properties/-/babel-plugin-transform-class-properties-6.24.1.tgz#6a79763ea61d33d36f37b611aa9def81a81b46ac"
+  dependencies:
+    babel-helper-function-name "^6.24.1"
+    babel-plugin-syntax-class-properties "^6.8.0"
+    babel-runtime "^6.22.0"
+    babel-template "^6.24.1"
 
 babel-plugin-transform-es2015-arrow-functions@^6.22.0:
   version "6.22.0"
@@ -1592,7 +1636,7 @@ core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.1.tgz#ae6874dc66937789b80754ff5428df66819ca50b"
 
-core-js@^2.5.1:
+core-js@^2.5.1, core-js@^2.5.6:
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
 
@@ -2304,6 +2348,10 @@ execa@^0.7.0:
     p-finally "^1.0.0"
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
+
+exenv@^1.2.1:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
 
 exit-hook@^1.0.0:
   version "1.1.1"
@@ -5050,6 +5098,15 @@ react-dom@^16.4.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+react-helmet@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-5.2.0.tgz#a81811df21313a6d55c5f058c4aeba5d6f3d97a7"
+  dependencies:
+    deep-equal "^1.0.1"
+    object-assign "^4.1.1"
+    prop-types "^15.5.4"
+    react-side-effect "^1.1.0"
+
 react-hot-loader@^3.0.0-beta.7:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-3.1.3.tgz#6f92877326958c7cb0134b512474517869126082"
@@ -5080,6 +5137,13 @@ react-redux@^5.0.5:
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
+
+react-side-effect@^1.1.0:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-1.1.5.tgz#f26059e50ed9c626d91d661b9f3c8bb38cd0ff2d"
+  dependencies:
+    exenv "^1.2.1"
+    shallowequal "^1.0.1"
 
 react-transition-group@^2.3.0:
   version "2.3.1"
@@ -5424,7 +5488,7 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
-rimraf@2, rimraf@^2.2.8, rimraf@^2.5.1, rimraf@^2.6.1:
+rimraf@2, rimraf@^2.2.8, rimraf@^2.5.1, rimraf@^2.6.1, rimraf@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.2.tgz#2ed8150d24a16ea8651e6d6ef0f47c4158ce7a36"
   dependencies:
@@ -5527,6 +5591,10 @@ send@0.16.1:
     range-parser "~1.2.0"
     statuses "~1.3.1"
 
+serialize-javascript@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.5.0.tgz#1aa336162c88a890ddad5384baebc93a655161fe"
+
 serve-index@^1.7.2:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/serve-index/-/serve-index-1.9.1.tgz#d3768d69b1e7d82e5ce050fff5b453bea12a9239"
@@ -5607,6 +5675,10 @@ sha.js@^2.4.0, sha.js@^2.4.8:
   dependencies:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
+
+shallowequal@^1.0.1:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
 
 shebang-command@^1.2.0:
   version "1.2.0"
