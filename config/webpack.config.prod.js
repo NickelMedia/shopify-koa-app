@@ -2,32 +2,11 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
-
-const sourceMap = isDevelopment;
-const plugins = isDevelopment
-  ? [
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('development'),
-      }),
-      new webpack.HotModuleReplacementPlugin(),
-    ]
-  : [
+const plugins = [
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
-      new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.UglifyJsPlugin({
-        compressor: {
-          warnings: false,
-        },
-        minimize: true,
-      }),
     ];
-
-const extraEntryFiles = isDevelopment
-  ? ['react-hot-loader/patch', 'webpack-hot-middleware/client']
-  : [];
 
 module.exports = {
   plugins,
@@ -35,7 +14,6 @@ module.exports = {
   devtool: 'eval',
   entry: {
     main: [
-      ...extraEntryFiles,
       '@shopify/polaris/styles.css',
       path.resolve(__dirname, '../client/index.js'),
     ],
@@ -47,7 +25,7 @@ module.exports = {
     libraryTarget: 'var',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
