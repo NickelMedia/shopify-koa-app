@@ -93,11 +93,16 @@ app.use(verifyRequest({ fallbackRoute: '/install' }));
 app.use(route.all('/shopify/api/(.*)', shopifyApiProxy));
 
 // Client
-app.use(route.get('/', (ctx) => ctx.render('app', {
-	title: 'Shopify Node App',
-	apiKey: shopifyConfig.apiKey,
-	shop: ctx.session.shop,
-})));
+app.use(async (ctx, next) => {
+	await next();
+	if(ctx.status === 404) {
+		return ctx.render('app', {
+			title: 'Shopify Node App',
+			apiKey: shopifyConfig.apiKey,
+			shop: ctx.session.shop,
+		});
+	}
+});
 
 /* app.post('/order-create', withWebhook((error, request) => {
   if (error) {
