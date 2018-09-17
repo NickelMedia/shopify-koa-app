@@ -41,7 +41,6 @@ module.exports = {
           {
             loader: 'css-loader',
             query: {
-              sourceMap,
               modules: true,
               importLoaders: 1,
               localIdentName: '[name]-[local]_[hash:base64:5]',
@@ -51,7 +50,6 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               plugins: () => autoprefixer(),
-              sourceMap,
             },
           },
         ],
@@ -66,7 +64,6 @@ module.exports = {
           {
             loader: 'css-loader',
             query: {
-              sourceMap,
               modules: true,
               importLoaders: 1,
               localIdentName: '[local]',

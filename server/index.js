@@ -10,16 +10,15 @@ const { default: shopifyAuth, verifyRequest } = require('@shopify/koa-shopify-au
 const session = require('koa-session');
 const path = require('path');
 const logger = require('koa-logger');
-const webpack = require('webpack');
 const koaWebpack = require('koa-webpack');
 const config = require('../config/webpack.config.dev.js');
 const shopifyApiProxy = require('./koa-route-shopify-api-proxy');
 
-const ShopifyAPIClient = require('shopify-api-node');
+/* const ShopifyAPIClient = require('shopify-api-node'); */
 
 const {
   SHOPIFY_APP_KEY,
-  SHOPIFY_APP_HOST,
+  /* SHOPIFY_APP_HOST, */
   SHOPIFY_APP_SECRET,
   NODE_ENV,
 } = process.env;
@@ -72,22 +71,6 @@ app.use(async (ctx, next) => {
 
 // Run webpack hot reloading in dev
 if (isDevelopment) {
-  const compiler = webpack(config);
-  const middlewareOptions = {
-    hot: true,
-    inline: true,
-    publicPath: config.output.publicPath,
-    contentBase: 'src',
-    stats: {
-      colors: true,
-      hash: false,
-      timings: true,
-      chunks: false,
-      chunkModules: false,
-      modules: false,
-    },
-  };
-
 	koaWebpack({config})
 	.then((middleware) => {
 		app.use(middleware);
@@ -110,11 +93,16 @@ app.use(verifyRequest({ fallbackRoute: '/install' }));
 app.use(route.all('/shopify/api/(.*)', shopifyApiProxy));
 
 // Client
-app.use(route.get('/', (ctx) => ctx.render('app', {
+app.use(async (ctx, next) => {
+	await next();
+	if(ctx.status === 404) {
+		return ctx.render('app', {
 			title: 'Shopify Node App',
 			apiKey: shopifyConfig.apiKey,
 			shop: ctx.session.shop,
-		})));
+		});
+	}
+});
 
 /* app.post('/order-create', withWebhook((error, request) => {
   if (error) {
