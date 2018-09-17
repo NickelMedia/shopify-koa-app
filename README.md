@@ -1,4 +1,4 @@
-# Shopify Node App
+# Shopify Koa App
 
 The goal of this example app is to provide a starting point for Shopify app developers so that they will be able to quickly
 spin up an embedded Shopify app using Node and Express.js and get started using the Polaris design system and React components.
