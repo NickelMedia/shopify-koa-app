@@ -1,9 +1,3 @@
-* [@shopify/koa-shopify-auth](https://github.com/Shopify/quilt/tree/master/packages/koa-shopify-auth)
-* [@shopify/koa-shopify-graphql-proxy](https://github.com/Shopify/quilt/blob/master/packages/koa-shopify-graphql-proxy/README.md)
-* [@shopify/react-html](https://github.com/Shopify/quilt/blob/master/packages/react-html/README.md)
-
-Finally, as mentioned above we have some new things coming down the pipe soon. ❤️✨
-
 # Shopify Node App
 
 The goal of this example app is to provide a starting point for Shopify app developers so that they will be able to quickly
