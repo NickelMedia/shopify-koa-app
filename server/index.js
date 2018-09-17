@@ -11,45 +11,55 @@ const session = require('koa-session');
 const path = require('path');
 const logger = require('koa-logger');
 const koaWebpack = require('koa-webpack');
+const ShopifyAPIClient = require('shopify-api-node');
 const config = require('../config/webpack.config.dev.js');
 const shopifyApiProxy = require('./koa-route-shopify-api-proxy');
+const shopifyWebhookMiddleware = require('./shopify-webhook-middleware');
 
-/* const ShopifyAPIClient = require('shopify-api-node'); */
 
 const {
-  SHOPIFY_APP_KEY,
-  /* SHOPIFY_APP_HOST, */
-  SHOPIFY_APP_SECRET,
-  NODE_ENV,
+	SHOPIFY_APP_KEY,
+	SHOPIFY_APP_HOST,
+	SHOPIFY_APP_SECRET,
+	NODE_ENV,
 } = process.env;
 
 const shopifyConfig = {
 	prefix: '/shopify',
-		apiKey: SHOPIFY_APP_KEY,
-		secret: SHOPIFY_APP_SECRET,
-		// our app's permissions
-		scopes: ['write_products', 'read_products', 'read_orders', 'write_orders'],
-		// our own custom logic after authentication has completed
-		afterAuth(ctx) {
-			const { shop, accessToken } = ctx.session;
+	apiKey: SHOPIFY_APP_KEY,
+	secret: SHOPIFY_APP_SECRET,
+	// our app's permissions
+	scopes: ['write_products', 'read_products', 'read_orders', 'write_orders'],
+	// our own custom logic after authentication has completed
+	afterAuth(ctx) {
+		const { shop, accessToken } = ctx.session;
 
-			/* registerWebhook(shop, accessToken, {
-				topic: 'orders/create',
-				address: `${SHOPIFY_APP_HOST}/order-create`,
-				format: 'json'
-			}); */
-
-			return ctx.redirect('/');
-		},
+		registerWebhook(shop, accessToken, {
+			topic: 'app/uninstalled',
+			address: `${SHOPIFY_APP_HOST}/webhook`,
+			format: 'json'
+		});
+		registerWebhook(shop, accessToken, {
+			topic: 'products/create',
+			address: `${SHOPIFY_APP_HOST}/webhook`,
+			format: 'json'
+		});
+		registerWebhook(shop, accessToken, {
+			topic: 'products/delete',
+			address: `${SHOPIFY_APP_HOST}/webhook`,
+			format: 'json'
+		});
+		return ctx.redirect('/');
+	},
 };
 
-/* const registerWebhook = function(shopDomain, accessToken, webhook) {
-  const shopify = new ShopifyAPIClient({ shopName: shopDomain, accessToken: accessToken });
-  shopify.webhook.create(webhook).then(
-    response => console.log(`webhook '${webhook.topic}' created`),
-    err => console.log(`Error creating webhook '${webhook.topic}'. ${JSON.stringify(err.response.body)}`)
-  );
-} */
+const registerWebhook = function (shopDomain, accessToken, webhook) {
+	const shopify = new ShopifyAPIClient({ shopName: shopDomain, accessToken: accessToken });
+	shopify.webhook.create(webhook).then(
+		response => console.log(`webhook '${webhook.topic}' created`),
+		err => console.log(`Error creating webhook '${webhook.topic}'. ${JSON.stringify(err.response.body)}`)
+	);
+}
 
 const app = new Koa();
 const isDevelopment = NODE_ENV !== 'production';
@@ -71,20 +81,28 @@ app.use(async (ctx, next) => {
 
 // Run webpack hot reloading in dev
 if (isDevelopment) {
-	koaWebpack({config})
-	.then((middleware) => {
-		app.use(middleware);
-	})
-	.catch((err) => console.error(err.message));
+	koaWebpack({ config })
+		.then((middleware) => {
+			app.use(middleware);
+		})
+		.catch((err) => console.error(err.message));
 } else {
-  const staticPath = path.resolve(__dirname, '../assets');
-  app.use(mount('/assets', serve(staticPath)));
+	const staticPath = path.resolve(__dirname, '../assets');
+	app.use(mount('/assets', serve(staticPath)));
 }
 
 // Install
 app.use(route.get('/install', (ctx) => ctx.render('install')));
 
 app.use(shopifyAuth(shopifyConfig));
+
+const withWebhook = shopifyWebhookMiddleware({ secret: SHOPIFY_APP_SECRET });
+
+app.use(route.post('/webhook', withWebhook((ctx, next) => {
+	console.log('We got a webhook!');
+	console.log('Details: ', ctx.webhook);
+	console.log('Body:', ctx.body);
+})));
 
 // secure all middleware after this line
 app.use(verifyRequest({ fallbackRoute: '/install' }));
@@ -95,7 +113,7 @@ app.use(route.all('/shopify/api/(.*)', shopifyApiProxy));
 // Client
 app.use(async (ctx, next) => {
 	await next();
-	if(ctx.status === 404) {
+	if (ctx.status === 404) {
 		return ctx.render('app', {
 			title: 'Shopify Node App',
 			apiKey: shopifyConfig.apiKey,
@@ -104,18 +122,7 @@ app.use(async (ctx, next) => {
 	}
 });
 
-/* app.post('/order-create', withWebhook((error, request) => {
-  if (error) {
-    console.error(error);
-    return;
-  }
-
-  console.log('We got a webhook!');
-  console.log('Details: ', request.webhook);
-  console.log('Body:', request.body);
-})); */
-
-app.on('error', (err, ctx) => { 
+app.on('error', (err, ctx) => {
 	console.log('error', err);
 	ctx.status = err.status || 500;
 	ctx.render('error', {
