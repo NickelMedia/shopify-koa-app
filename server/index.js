@@ -128,6 +128,7 @@ app.use(async (ctx, next) => {
 			title: 'Shopify Node App',
 			apiKey: shopifyConfig.apiKey,
 			shop: ctx.session.shop,
+			isDevelopment
 		});
 	}
 });
