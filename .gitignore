@@ -6,3 +6,4 @@ dump.rdb
 main.js
 db.sqlite3
 /ngrok.exe
+/data/*
