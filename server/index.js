@@ -12,6 +12,9 @@ const path = require('path');
 const logger = require('koa-logger');
 const koaWebpack = require('koa-webpack');
 const ShopifyAPIClient = require('shopify-api-node');
+const mongoose = require('mongoose');
+const SessionStore = require('./session-store');
+const ShopStore = require('./shop-store');
 const config = require('../config/webpack.config.dev.js');
 const shopifyApiProxy = require('./koa-route-shopify-api-proxy');
 const shopifyWebhookMiddleware = require('./shopify-webhook-middleware');
@@ -22,7 +25,10 @@ const {
 	SHOPIFY_APP_HOST,
 	SHOPIFY_APP_SECRET,
 	NODE_ENV,
+	MONGODB_PATH
 } = process.env;
+
+const shopStore = new ShopStore();
 
 const shopifyConfig = {
 	prefix: '/shopify',
@@ -33,6 +39,7 @@ const shopifyConfig = {
 	// our own custom logic after authentication has completed
 	afterAuth(ctx) {
 		const { shop, accessToken } = ctx.session;
+		shopStore.storeShop({shop, accessToken});
 
 		registerWebhook(shop, accessToken, {
 			topic: 'app/uninstalled',
@@ -61,13 +68,15 @@ const registerWebhook = function (shopDomain, accessToken, webhook) {
 	);
 }
 
+mongoose.connect(MONGODB_PATH);
+
 const app = new Koa();
 const isDevelopment = NODE_ENV !== 'production';
 
 app.use(views(path.join(__dirname, 'views'), { extension: 'ejs' }));
 app.use(logger());
 app.keys = [SHOPIFY_APP_SECRET];
-app.use(session(app)); // TODO: need DB store for production
+app.use(session({ store: new SessionStore() }, app));
 
 app.use(async (ctx, next) => {
 	try {
@@ -94,9 +103,10 @@ if (isDevelopment) {
 // Install
 app.use(route.get('/install', (ctx) => ctx.render('install')));
 
+// app.use(route.get('/auth', (ctx) => ctx.redirect('/shopify/auth')));
 app.use(shopifyAuth(shopifyConfig));
 
-const withWebhook = shopifyWebhookMiddleware({ secret: SHOPIFY_APP_SECRET });
+const withWebhook = shopifyWebhookMiddleware({ secret: SHOPIFY_APP_SECRET, shopStore });
 
 app.use(route.post('/webhook', withWebhook((ctx, next) => {
 	console.log('We got a webhook!');
