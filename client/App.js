@@ -21,7 +21,7 @@ class App extends Component {
 		const { apiKey, shopOrigin } = window;
 
 		return (
-			<AppProvider shopOrigin={shopOrigin} apiKey={apiKey} /* linkComponent={CustomLinkComponent} */>
+			<AppProvider shopOrigin={shopOrigin} apiKey={apiKey} /* linkComponent={CustomLinkComponent} */ forceRedirect>
 				<Router>
 					<React.Fragment>
 						<Propagator />
