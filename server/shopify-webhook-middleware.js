@@ -22,7 +22,7 @@ module.exports = function configureWithWebhook({ secret, shopStore }) {
 
 				const shop = await shopStore.getShop({ shop: shopDomain });
 				if(!shop || !shop.accessToken ) {
-					ctx.throw(401, `Unable to verify request HMAC for ${shopDomain}`);
+					ctx.throw(401, `Unable to verify installation for ${shopDomain}`);
 					return;
 				}
 
