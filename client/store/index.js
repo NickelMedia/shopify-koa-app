@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import { logger } from 'redux-logger';
 
 const requestFields = {
 	verb: 'POST',
@@ -77,7 +78,6 @@ function reducer(state = initState, action) {
 
 let middleware = [thunkMiddleware]
 if (process.env.NODE_ENV !== 'production') {
-	const logger = require('redux-logger')
 	middleware = [...middleware, logger]
 }
 
