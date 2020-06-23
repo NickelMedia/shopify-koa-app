@@ -17,7 +17,6 @@ module.exports = class MongooseStore {
 	}
 
 	async storeShop({ shop, accessToken }) {
-		console.log('hey', shop, accessToken);
 		const { shops } = this;
 		const record = { _id: shop, accessToken };
 		await shops.findByIdAndUpdate(shop, record, { upsert: true, safe: true });
